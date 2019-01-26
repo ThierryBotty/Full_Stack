@@ -7,29 +7,43 @@ const Button = (props) => (
   </button>
 )
 
+const getBest = (votes) => {
+  let best = 0;
+  let best_i = 0;
+  for(var i = 0; i < votes.length; i++){
+    if(votes[i] > best){
+      best = votes[i];
+      best_i = i;
+    }
+  }
+  return [best_i, best];
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const points = [0, 0, 0, 0, 0, 0]
-  const [votes, setVotes] = useState(points)
-
+  const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0])
+  
   const vote = (x) => {
     let copy = votes
-    console.log(copy)
-    copy[x] = votes[x] + 1
+    copy[x] += 1
     setVotes(copy)
   }
 
   return (
     <div>
+    <h1>Anecdote of the day</h1>
       {props.anecdotes[selected]}
-      {console.log("haloo", selected)}
-      <p>has {points[selected]} votes</p>
+      <p>has {votes[selected]} votes</p>
       <p>
         <Button handleClick={
           () => setSelected(Math.floor(Math.random()*props.anecdotes.length))}
           text='next anecdote' />
-        <Button handleClick={vote(selected)} text='vote' />
+        <Button handleClick={() => vote(selected)} text='vote' />
       </p>
+
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[getBest(votes)[0]]}</p>
+      <p>has {getBest(votes)[1]} votes</p>
     </div>
   )
 }
