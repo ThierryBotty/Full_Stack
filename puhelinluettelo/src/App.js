@@ -1,6 +1,20 @@
 import React, { useState } from 'react'
 
 const Person = ({ person }) => <li>{person.name} {person.number}</li>
+
+const Persons = (props) => {
+  persons = props.persons
+  return(
+    const rows = () => persons.map(person =>
+      <Person
+        key={person.name}
+        person={person}
+        number={person.number}
+      />
+    )
+  )
+}
+
 const Filter = (props) => (
   <div>
     Rajaa: <input value={props.filter} onChange={props.updateFilter} />
@@ -8,17 +22,19 @@ const Filter = (props) => (
 )
 
 const Form = (props) => {
-  <form onSubmit={props.addPerson}>
-    <div> nimi: <input value={props.newName}
-      onChange={props.handleNameChange} />
-    </div>
-    <div>numero: <input value={props.newNumber}
-      onChange={props.handleNumberChange}/>
-    </div>
-    <div>
-      <button type="submit">lisää</button>
-    </div>
-  </form>
+  return (
+    <form onSubmit={props.addPerson}>
+      <div> nimi: <input value={props.newName}
+        onChange={props.handleNameChange} />
+      </div>
+      <div>numero: <input value={props.newNumber}
+        onChange={props.handleNumberChange}/>
+      </div>
+      <div>
+        <button type="submit">lisää</button>
+      </div>
+    </form>
+  )
 }
 
 const App = () => {
@@ -47,27 +63,20 @@ const App = () => {
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const updateFilter = (event) => setFilter(event.target.value)
 
-  const rows = () => persons.map(person =>
-    <Person
-      key={person.name}
-      person={person}
-      number={person.number}
-    />
-  )
-
   return (
     <div>
       <h2>Puhelinluettelo</h2>
       <Filter filter = {filter} updateFilter = {updateFilter}/>
       <h1> Lisää uusi </h1>
       <Form
+        addPerson={addPerson}
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
       />
       <h2>Numerot</h2>
-      {rows()}
+      <Persons persons = {persons}/>
     </div>
   )
 
