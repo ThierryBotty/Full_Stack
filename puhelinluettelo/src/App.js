@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 
 const Person = ({ person }) => <li>{person.name} {person.number}</li>
 
-const Persons = (props) => {
-  persons = props.persons
+const Persons = ({ persons }) => {
   return(
-    const rows = () => persons.map(person =>
-      <Person
-        key={person.name}
-        person={person}
-        number={person.number}
-      />
-    )
+    <>
+      { persons.map(person =>
+        <Person
+          key={person.name}
+          person={person}
+          number={person.number}
+        />)
+      }
+    </>
   )
 }
 
@@ -25,10 +26,10 @@ const Form = (props) => {
   return (
     <form onSubmit={props.addPerson}>
       <div> nimi: <input value={props.newName}
-        onChange={props.handleNameChange} />
+        onChange={props.updateName} />
       </div>
       <div>numero: <input value={props.newNumber}
-        onChange={props.handleNumberChange}/>
+        onChange={props.updateNumber}/>
       </div>
       <div>
         <button type="submit">lisää</button>
@@ -49,7 +50,6 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
 
   const addPerson = (event) => {
-    console.log('asdf')
     event.preventDefault()
     if (persons.find(person => person.name === newName)) {
       alert(`${newName} on jo luettelossa!`)
@@ -59,8 +59,8 @@ const App = () => {
     setPersons(persons)
   }
 
-  const handleNameChange = (event) => setNewName(event.target.value)
-  const handleNumberChange = (event) => setNewNumber(event.target.value)
+  const updateName = (event) => setNewName(event.target.value)
+  const updateNumber = (event) => setNewNumber(event.target.value)
   const updateFilter = (event) => setFilter(event.target.value)
 
   return (
@@ -71,15 +71,14 @@ const App = () => {
       <Form
         addPerson={addPerson}
         newName={newName}
-        handleNameChange={handleNameChange}
+        updateName={updateName}
         newNumber={newNumber}
-        handleNumberChange={handleNumberChange}
+        updateNumber={updateNumber}
       />
       <h2>Numerot</h2>
-      <Persons persons = {persons}/>
+      <Persons persons={persons.filter(x => x.name.toLowerCase().includes(filter))}/>
     </div>
   )
-
 }
 
 export default App
