@@ -1,59 +1,51 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-const Header = (props) => {
-  return (
-    <h1>{props.course.name}</h1>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <p>{props.part.name} {props.part.exercises}</p>
-  )
-}
-
-const Content = (props) => {
-  return (
-    <>
-      <Part part={props.parts[0]}/>
-      <Part part={props.parts[1]}/>
-      <Part part={props.parts[2]}/>
-    </>
-  )
-}
-
-const Total = (props) => {
-  console.log(props)
-  return (
-    <p>yhteensä {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises} tehtävää</p>
-  )
-}
+import Course from './course'
 
 const App = () => {
-  const course = {
-    name: 'Half Stack -sovelluskehitys',
-    parts: [
-      {
-        name: 'Reactin perusteet',
-        exercises: 10
-      },
-      {
-        name: 'Tiedonvälitys propseilla',
-        exercises: 7
-      },
-      {
-        name: 'Komponenttien tila',
-        exercises: 14
-      }
-    ]
-  }
+  const courses = [
+    {
+      name: 'Half Stack -sovelluskehitys',
+      id: 1,
+      parts: [
+        {
+          name: 'Reactin perusteet',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Tiedonvälitys propseilla',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'Komponenttien tila',
+          exercises: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 2,
+          id: 1
+        },
+        {
+          name: 'Middlewaret',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   return (
     <div>
-      <Header course={course} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      {courses.map((course) => <Course key={course.id} course={course} />)}
     </div>
   )
 }
