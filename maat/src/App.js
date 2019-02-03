@@ -1,7 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Country = ({ country }) => (
+const Country = ({ country }) => {
+  const [ weather, setWeather ] = useState(null)
+
+useEffect(() => {
+  axios.get(`https://api.apixu.com/v1/current.json?key=10064d04816b4b34aad230504190302&q=${country.capital}`).then(result => {
+    console.log(result.data.current)
+    setWeather(result.data.current)
+  })
+}, [])
+
+  return(
   <div>
     <h2>{country.name}</h2>
     <div>capital: {country.capital}</div>
@@ -12,10 +22,12 @@ const Country = ({ country }) => (
     </ul>
 
     <img src={country.flag} width='200px' alt='flag' />
-
+        <h2> Weather in {country.capital} </h2>
+    <Weather weather = {weather} />
 
   </div>
 )
+}
 
 const IndividualCountry = (props) => {
   return (
@@ -23,20 +35,21 @@ const IndividualCountry = (props) => {
     </div>)
 }
 
-const Weather = (props) => (
-
-  <>
-    <div>
-    Temperature: {props.temp_c} Celcius
+const Weather = ( {weather} ) => {
+  if(!weather) {return null}
+  return(
+    <>
+      <div>
+      Temperature: {weather.temp_c} Celcius
+      </div>
+      <div>
+      <img src={'https:' + (weather.condition ? weather.condition.icon : '//via.placeholder.com/150')} />
+      </div>
+      <div>
+      <b>Wind: </b>{weather.wind_kph} kph, direction {weather.wind_dir}
     </div>
-    <div>
-    <img src={'https:' + (props.condition ? props.condition.icon : '//via.placeholder.com/150')} />
-    </div>
-    <div>
-    <b>Wind: </b>{props.wind_kph} kph, direction {props.wind_dir}
-  </div>
-</>
-)
+  </>)
+}
 
 const Language = ( {language} ) => (
   <li> {language} </li>
@@ -68,7 +81,6 @@ const App = () => {
   const [ countries, setCountries ] = useState([])
   const [ filter, setFilter ] = useState('')
   const [ oldFilter, setOldFilter ] = useState('')
-  const [ weather, setWeather ] = useState({})
 
   const updateFilter = (event) => setFilter(event.target.value)
 
@@ -79,14 +91,6 @@ const App = () => {
           setCountries(response.data)
     })
   }
-
-  if(countries.length == 1){
-    use
-  axios.get(`https://api.apixu.com/v1/current.json?key=278e909de30140c3950165341181010&q=${countries[0].capital}`).then(result => {
-    console.log(result.data.current)
-    setWeather(result.data.current)
-  })
-}
 
   if(filter !== '' && filter !== oldFilter){
     axios
@@ -106,8 +110,6 @@ const App = () => {
         setCountries= {setCountries}
         getCountry={getCountry}
       />
-      <Weather countries = {weather} />
-
     </div>
   )
 }
