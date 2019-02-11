@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:3001/persons/'
+const url = 'http://localhost:3001/api/persons/'
 const getAll = () => axios.get(url).then(res => res.data)
 const add = (person) => axios.post(url, person).then(res => res.data)
 const remove = (person) => axios.delete(url + person.id).then(res => res.data)
