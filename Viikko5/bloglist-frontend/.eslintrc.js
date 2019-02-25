@@ -3,7 +3,10 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -16,6 +19,7 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
+        "react",
         "react-hooks"
     ],
     "rules": {
@@ -34,6 +38,14 @@ module.exports = {
       "semi": [
           "error",
           "never"
+      ],
+      "eqeqeq": "error",
+      "no-trailing-spaces": "error",
+      "object-curly-spacing": [
+          "error", "always"
+      ],
+      "arrow-spacing": [
+          "error", { "before": true, "after": true }
       ]
     }
 };
