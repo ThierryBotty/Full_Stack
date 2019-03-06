@@ -10,7 +10,7 @@ const Notification = props => {
   }
 
   if (!props.notification) return null
-  setTimeout(() => {props.notify()}, 5000)
+  setTimeout(() => {props.notify('')}, 5000)
 
   return (
     <div style={style}>
@@ -23,6 +23,6 @@ const mapStateToProps = state => {
   return {notification: state.notification}
 }
 
-const ConnectedNotification = connect(mapStateToProps, notify)(Notification)
+const ConnectedNotification = connect(mapStateToProps, {notify} )(Notification)
 
 export default ConnectedNotification

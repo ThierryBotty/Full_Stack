@@ -8,6 +8,7 @@ const App = (props) => {
   return (
     <div>
       <h2>Programming anecdotes</h2>
+      <Notification/>
       <Filter/>
       <AnecdoteList/>
       <AnecdoteForm/>
