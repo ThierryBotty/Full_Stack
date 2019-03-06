@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { connect } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 
@@ -10,14 +9,20 @@ const Notification = props => {
     borderWidth: 1
   }
 
-  if (!props.store.getState().notification) return null
-  setTimeout(() => {props.store.dispatch(notify(null))}, 5000)
+  if (!props.notification) return null
+  setTimeout(() => {props.notify()}, 5000)
 
   return (
     <div style={style}>
-      {props.store.getState().notification}
+      {props.notification}
     </div>
   )
 }
 
-export default Notification
+const mapStateToProps = state => {
+  return {notification: state.notification}
+}
+
+const ConnectedNotification = connect(mapStateToProps, notify)(Notification)
+
+export default ConnectedNotification

@@ -1,18 +1,17 @@
 import React from 'react'
-
 import { connect } from 'react-redux'
 import { voteA } from '../reducers/anecdoteReducer'
 import { notify } from './../reducers/notificationReducer'
 
 const AnecdoteList = props => {
-  const anecdotes = props.store.getState().anecdotes
-  const filter = props.store.getState().filter
+  const anecdotes = props.anecdotes
+  const filter = props.filter
 
   const vote = (id) => {
     console.log('vote', id)
-    props.store.dispatch(voteA(id))
+    props.voteA(id)
     let a = anecdotes.find(x => x.id === id)
-    props.store.dispatch(notify(`You voted '${a.content}'`))
+    props.notify(`You voted '${a.content}'`)
   }
 
   return (
@@ -32,4 +31,13 @@ const AnecdoteList = props => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = state => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+export default connect(
+  mapStateToProps, voteA, notify
+)(AnecdoteList)
